@@ -1,0 +1,2 @@
+https://musescore.com/api/jmuse?id=3291706&index=0&type=mp3
+&"C:\Users\tinta\Documents\CODE\musescore2pdf\ps_scripts\python\Scripts\mitmdump.exe" -s proxy.py --set console_eventlog_verbosity=debug  
