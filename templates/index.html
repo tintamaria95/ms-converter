@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI WebSocket Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { padding: 10px; margin: 5px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Updates from FastAPI</h1>
+
+    <div>
+        <h2>Submit a new message</h2>
+        <input type="text" id="message-input" placeholder="Enter your message" />
+        <button onclick="submitMessage()">Submit</button>
+    </div>
+
+    <h2>Messages:</h2>
+    <ul id="messages-list"></ul>
+
+    <script>
+        const socket = new WebSocket("ws://" + window.location.host + "/ws");
+
+        socket.onmessage = function(event) {
+            const messageContent = event.data;
+            const messagesList = document.getElementById("messages-list");
+            const listItem = document.createElement("li");
+            listItem.textContent = messageContent;
+            messagesList.prepend(listItem);  // Add the new message at the top
+        };
+
+        function submitMessage() {
+            const messageInput = document.getElementById("message-input");
+            const message = messageInput.value;
+
+            if (message.trim() === "") return;
+
+            // Send JSON data in the request
+            fetch("/api/submit", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({ content: message })  // Send as JSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Message submitted:", data);
+                messageInput.value = ""; // Clear input field
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

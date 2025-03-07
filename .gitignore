@@ -1,3 +1,4 @@
 ps_scripts/python
 *.p12
 __pycache__
+venv/
