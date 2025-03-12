@@ -1,15 +1,10 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.responses import HTMLResponse
-import asyncio
-
-from run_mitmproxy import run_mitmdump
-
-
-port = 8080
-asyncio.run(run_mitmdump(port=8080, timeout=10))
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Store updates to send to the frontend
 updates = []
@@ -20,6 +15,9 @@ websocket_connections = set()
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    if len(websocket_connections) == 0:
+        # start mitmproxy
+        pass
     websocket_connections.add(websocket)
 
     try:
@@ -27,6 +25,9 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text()  # Keep connection alive
     except WebSocketDisconnect:
         websocket_connections.remove(websocket)
+        if len(websocket_connections) == 0:
+            # Stop mitmproxy
+            pass
 
 
 # POST request endpoint to receive JSON data and send updates
