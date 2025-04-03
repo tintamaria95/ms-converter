@@ -1,0 +1,107 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Full-screen layout */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FAF8F6;
+    /* Soft warm white */
+    color: #333;
+}
+
+/* Title */
+h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #5A4D66;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #5A4D66;
+}
+
+/* Status Section */
+.status-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.status-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bbb;
+    /* Default inactive */
+    transition: background 0.3s;
+}
+
+.status-message {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    background: #5A4D66;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background: #453A55;
+}
+
+.scores-container {
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-radius: 5px;
+    background: #F2F0EC;
+    transition: background 0.2s;
+    gap: 25px;
+}
+
+.score:hover {
+    background: #E8E6E2;
+}
+
+.score button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background: #5A4D66;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.score button:hover {
+    background: #453A55;
+}

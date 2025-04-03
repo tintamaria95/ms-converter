@@ -80,5 +80,6 @@ if __name__ == "__main__":
     try:
         task_manager = MITMProxyTaskManager()
         asyncio.run(task_manager.main())
+
     except KeyboardInterrupt:
         pass  # Prevent traceback if Ctrl+C is pressed at the wrong moment

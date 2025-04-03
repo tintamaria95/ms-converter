@@ -1,0 +1,547 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        
+    <script>
+    (function () {
+        function executeIfLoaded(callback) {
+            if (document.readyState === 'complete') {
+                callback()
+            } else {
+                window.addEventListener('load', callback)
+            }
+        }
+        function onReady(callback) {
+            if (document.readyState !== "loading") {
+                callback();
+            } else {
+                document.addEventListener("DOMContentLoaded", callback);
+            }
+        }
+        function getIsUserScript(stack) {
+            return stack.indexOf('userscript.html') > -1
+        }
+        var createElement = document.createElement;
+        var open = window.open;
+        var append = HTMLElement.prototype.append;
+        var prepend = HTMLElement.prototype.prepend;
+        var Img = window.Image;
+
+        Object.defineProperty(HTMLElement.prototype, 'append', {
+            writable: false,
+            value: function () {
+                var stack = new Error().stack;
+                if (getIsUserScript(stack)) {
+                    disable()
+                    return null;
+                }
+                return append.apply(this, arguments)
+            }
+        })
+
+        Object.defineProperty(HTMLElement.prototype, 'prepend', {
+            writable: false,
+            value: function () {
+                var stack = new Error().stack;
+                if (getIsUserScript(stack)) {
+                    disable()
+                    return null;
+                }
+                return prepend.apply(this, arguments)
+            }
+        })
+
+        function disable() {
+        }
+
+        document.createElement = function() {
+            var tag = arguments[0].toLowerCase()
+            if (['img', 'iframe'].indexOf(tag) !== -1) {
+                var stack = new Error().stack;
+                if (getIsUserScript(stack)) {
+                    disable()
+                    return null;
+                }
+            }
+            return createElement.apply(this, arguments);
+        }
+        window.open = function () {
+            var stack = new Error().stack;
+            if (getIsUserScript(stack)) return;
+            return open.apply(this, arguments);
+        }
+
+        window.Image = function() {
+            var stack = new Error().stack
+            var stackChunks = stack.split('\n').slice(2);
+            var lastLine = stackChunks.reverse()[0];
+            var url = lastLine.split(' ').reverse()[0]
+            var urlChunks = url.substr(1, url.length - 2).split(':')
+            var resultUrl = urlChunks[0] + ':' + urlChunks[1]
+
+            if (
+                getIsUserScript(stack)
+                || lastLine.split(' (eval').length >= 3
+                || (lastLine.indexOf(' eval ') && resultUrl === location.href)                 || stackChunks.every(function (chunk) { return chunk.indexOf('a (https://c.amazon-adsystem.com/aax2/apstag.js:') > -1 })
+            ) {
+                disable()
+                return null;
+            }
+            return new Img(arguments[0], arguments[1])
+        }
+    })();
+</script>
+            <meta property="og:type" content="musescore:score">
+<meta property="og:site_name" content="Musescore.com">
+<meta property="og:title" content="Bygone Days – Joe Hisaishi">
+<meta property="og:url" content="https://musescore.com/user/31691575/scores/8050230">
+<meta property="og:description" content="Download and print in PDF or MIDI free sheet music of Bygone Days - Joe Hisaishi for Bygone Days by Joe Hisaishi arranged by LeekBleakFleec for Piano, Trombone, Tuba, Saxophone alto &amp; more instruments (Jazz Band)">
+<meta property="musescore:author" content="LeekBleakFleec">
+<meta href="/user/31691575" rel="author:author">
+<meta property="musescore:composer" content="Joe Hisaishi">
+<meta property="og:image" content="https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png@850x1100?no-cache=1715702382&amp;bgclr=ffffff">
+<meta name="twitter:card" content="player">
+<meta name="twitter:site" content="Musescore">
+<meta name="twitter:title" content="Bygone Days – Joe Hisaishi">
+<meta name="twitter:description" content="Download and print in PDF or MIDI free sheet music of Bygone Days - Joe Hisaishi for Bygone Days by Joe Hisaishi arranged by LeekBleakFleec for Piano, Trombone, Tuba, Saxophone alto &amp; more instruments (Jazz Band)">
+<meta name="twitter:image" content="https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png@850x1100?no-cache=1715702382&amp;bgclr=ffffff">
+<meta name="twitter:player" content="https://musescore.com/user/31691575/scores/8050230/embed">
+<meta name="twitter:player:width" content="480">
+<meta name="twitter:player:height" content="480">
+<meta property="twitter:app:url:googleplay" content="musescore://score/8050230">
+<meta property="twitter:app:url:iphone" content="musescore://score/8050230">
+<meta property="twitter:app:url:ipad" content="musescore://score/8050230">
+<meta property="twitter:app:name:iphone" content="Musescore">
+<meta property="twitter:app:id:iphone" content="835731296">
+<meta property="twitter:app:name:ipad" content="Musescore">
+<meta property="twitter:app:id:ipad" content="835731296">
+<meta property="twitter:app:name:googleplay" content="Musescore">
+<meta property="twitter:app:id:googleplay" content="com.musescore.playerlite">
+<meta name="application-name" content="Musescore">
+<meta name="msapplication-tooltip" content="Launch Musescore">
+<meta name="msapplication-TileImage" content="https://s3.amazonaws.com/cdn.musescore.com/images/musescore-144.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-starturl" content="https://musescore.com">
+<meta property="al:ios:app_name" content="Musescore Songbook">
+<meta property="al:ios:app_store_id" content="835731296">
+<meta property="al:android:app_name" content="Musescore">
+<meta property="al:android:package" content="com.musescore.playerlite">
+<meta property="al:android:app_name" content="Musescore Songbook">
+<meta property="al:android:package" content="com.musescore.player">
+<meta property="al:ios:url" content="musescore://score/8050230">
+<meta property="al:android:url" content="musescore://score/8050230">
+<link type="image/svg+xml" href="https://musescore.com/static/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.svg?no-cache=1715702382" rel="preload" as="image" importance="high">
+<link href="https://musescore.com/user/31691575/scores/8050230" rel="canonical">
+<link type="text/xml+oembed" href="https://musescore.com/oembed/endpoint?url=https://musescore.com/user/31691575/scores/8050230;format=xml" rel="alternate">
+<link type="application/json+oembed" href="https://musescore.com/oembed/endpoint?url=https://musescore.com/user/31691575/scores/8050230;format=json" rel="alternate">
+<link href="android-app://com.musescore.player/musescore/score/8050230" rel="alternate">
+<link href="ios-app://835731296/musescore/score/8050230" rel="alternate">    
+    <title>Bygone Days – Joe Hisaishi Sheet music for Piano, Trombone, Tuba, Saxophone alto &amp; more instruments (Jazz Band) | Musescore.com</title>
+    <meta name="description" content="Download and print in PDF or MIDI free sheet music of Bygone Days - Joe Hisaishi for Bygone Days by Joe Hisaishi arranged by LeekBleakFleec for Piano, Trombone, Tuba, Saxophone alto &amp; more instruments (Jazz Band)">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta charset="utf-8" />
+    <meta name="author" content="Musescore" />
+        <meta name="google-play-app" content="app-id=com.musescore.playerlite" />
+    <meta name="kindle-fire-app" content="app-id=com.musescore.player" />
+    <meta name="facebook-domain-verification" content="cp5d42j0lpsdi602yrcqh8f6jsktrc" />
+    <meta name="google-site-verification" content="Wc0Sbrzd_41dm4XKcF8OEBufv50WMuyrzkTJ-yM0O2I" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="MobileOptimized" content="width" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <meta name="csrf-param" content="_csrf">
+<meta name="csrf-token" content="ZYcLH6d29qyuVZ9Y71jj2Dh3f3sF4Z-NWXH2yCkCuJU2xEl63RqY5_sy2SyIIazuFTA4Klqp-6AdKISJfDfaww==">
+    
+<link rel="manifest" href="/manifest.json" />
+<meta name="application-name" content="Musescore" />
+
+    <link rel="icon" type="image/png" sizes="16x16" href="https://musescore.com/static/public/musescore/img/product_icons/favicon-16x16_ver1743610069.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://musescore.com/static/public/musescore/img/product_icons/favicon-32x32_ver1743610069.png">
+    <link rel="icon" type="image/svg+xml" href="https://musescore.com/static/public/musescore/img/product_icons/favicon_ver1743610069.svg">
+    <link rel="icon" type="image/x-icon" href="https://musescore.com/static/public/musescore/img/product_icons/favicon_ver1743610069.ico">
+    <link rel="apple-touch-icon" href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="72x72"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-72x72-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="76x76"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-76x76-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="114x114"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-114x114-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="120x120"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-120x120-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="144x144"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-144x144-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="180x180"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-180x180-precomposed_ver1743610069.png" />
+            <link
+            rel="apple-touch-icon" sizes="192x192"
+            href="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-192x192-precomposed_ver1743610069.png" />
+    
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="https://musescore.com/static/public/musescore/img/product_icons/apple-touch-icon-precomposed_ver1743610069.png">
+    <script>
+    var sentryMethodsToSave = ['setUser', 'setTag', 'setTags', 'setExtra', 'setExtras', 'addBreadcrumb', 'setContext'];
+    window.Sentry = {
+        _lazy: true
+    };
+    var sentryLazyCallsQueue = [];
+    var sentryLazyHandler = function () {
+        var args = Array.prototype.slice.call(arguments)
+        var methodName = args[0];
+        var rest = args.slice(1);
+
+        sentryLazyCallsQueue.push([methodName, rest])
+    };
+
+    sentryMethodsToSave.forEach(function (methodName) {
+        window.Sentry[methodName] = sentryLazyHandler.bind(this, methodName);
+    });
+
+    function applySentryLazyData() {
+        if (!sentryLazyCallsQueue) return;
+
+        for (var i = 0; i < sentryLazyCallsQueue.length; i++) {
+            var args = sentryLazyCallsQueue[i];
+            var methodName = args[0];
+            var restArgs = args[1];
+            var method = window.Sentry[methodName];
+
+            method && typeof method === 'function' && method.apply(window.Sentry, restArgs);
+        }
+
+        sentryLazyCallsQueue = undefined;
+    }
+
+    var errors = window.APPERROR ? (window.APPERROR.errors || []) : []
+    var UGERROR = {
+        errors,
+        loggerLoaded: false,
+    };
+
+    var oldOnError = window.onerror;
+    var loadScript = function (src, resolve) {
+        UGERROR.loggerLoaded = true;
+        var script = document.createElement('script');
+        script.async = true;
+        script.type = 'text/javascript';
+        script.src = src;
+
+            var changeState = function() {
+                if (!loaded) {
+                    resolve()
+                    loaded = true;
+                }
+            };
+            var loaded;
+
+            script.onreadystatechange = changeState;
+            script.onload = changeState;
+
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(script, node);
+        };
+
+        UGERROR.loadErrorLogger = function(release) {
+            var whitelistUrls = [
+                new RegExp('https://musescore.com/static/public')
+            ];
+
+            if (window.location.pathname !== '/') {
+                whitelistUrls.push(new RegExp(window.location.href))
+            }
+
+        !UGERROR.loggerLoaded && loadScript('https://musescore.com/static/public/build/sentry_0_0_2/sentry_wasm_ver1743610069.js', function () {
+            console.log('[sentry]:', 'bundle successfully loaded')
+            window.onerror = oldOnError;
+
+            var data = {}
+            var tags = {"country":"CA","isProUser":false,"isAuthenticated":false}
+            window.initSentry({
+                dsn: 'https://949bc7d1c76543be8db36f16653ba9a8@sentry10.ultimate-guitar.com/23',
+                release: release,
+                allowUrls: whitelistUrls,
+                ignoreErrors: [/ChunkLoadError:.*/, /NetworkError.*/, /ResizeObserver loop completed.*/, /object Response.*/, /PointerEvent.*/],
+            });
+
+            if (window.navigator.connection) {
+                var conn = window.navigator.connection
+                data.downlink = conn.downlink
+                data.effectiveType = conn.effectiveType
+                data.rtt = conn.rtt
+                tags.effectiveType = conn.effectiveType
+
+                window.Sentry.setExtras(data)
+            }
+
+                data.id = parseInt('0', 10);
+                data.userId = '0';
+
+            data.id && window.Sentry.setUser(data);
+            window.Sentry.setTags(tags);
+            window.Sentry.setContext('Client a/b variations', {"5365":1,"5803":1,"5845":2,"5851":1,"5911":2,"5950":2,"6022":2,"6055":3,"6103":1,"6109":2,"6112":1,"6127":1,"4402":2,"4801":2,"5020":2,"5068":2,"5080":3,"5140":2,"5224":3,"5233":2,"5284":2,"5299":2,"5425":2,"5443":2,"5479":2,"5524":2,"5527":2,"5539":3,"5548":2,"5569":2,"5578":2,"5614":2,"5689":2,"5698":3,"5755":2,"5776":2,"5785":2,"5815":2,"5902":2,"5944":2,"5953":2,"6052":3})
+
+            try {
+                applySentryLazyData();
+            } catch (error) {
+                console.error(error);
+            }
+
+            UGERROR.errors.forEach(function (args) {
+                if (args.length > 1) {
+                    window.onerror.apply(this, args);
+                    return;
+                }
+                var error = args[0] === undefined ? new Error('Caught undefined error') : args[0];
+
+                if (typeof error === 'string') {
+                    window.Sentry.captureMessage(error, 'error');
+                } else {
+                    window.Sentry.captureException(error);
+                }
+            });
+        })
+    };
+
+
+        function loadSentry() {
+            if (UGERROR.hasFirstError) {
+                return
+            }
+
+            function load() {
+                UGERROR.loadErrorLogger("mu-web_app_0.49.79");
+            }
+
+            if (document.readyState === 'complete') {
+                load();
+            } else {
+                window.addEventListener('load', load)
+            }
+            UGERROR.hasFirstError = true
+        }
+
+        if (UGERROR.errors && UGERROR.errors.length > 0) {
+            loadSentry()
+        }
+
+        window.onerror = function() {
+            UGERROR.errors.push(arguments);
+            oldOnError && oldOnError.apply(this, arguments);
+
+            loadSentry()
+        };
+    </script>
+                
+<style>
+    body,
+    html {
+        touch-action: manipulation;
+        background: #fff;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent
+    }
+
+    body * {
+        box-sizing: inherit
+    }
+
+    body, button {
+            color: #1a202e;
+            font-family: Muse Sans, Inter, Helvetica neue, Helvetica, sans-serif;
+            font-variant-ligatures: none;
+            font-feature-settings: "liga" 0;
+            -webkit-text-size-adjust: 100%;
+            font-synthesis: none
+        }
+
+    a {
+        text-decoration: none
+    }
+
+    body,
+    form {
+        margin: 0
+    }
+
+    @page {
+        margin: 0;
+        position: relative
+    }
+
+    @media print {
+
+        body,
+        html {
+            background: #fff !important
+        }
+    }
+
+    body.maintenance-page,
+    body.page-boxed-content {
+        background: #f6f6f6
+    }
+</style>
+                            <link rel='preload' href='https://musescore.com/static/public/build/musescore_es6/202504/vendor.20e693d3b8a020a6515d962c7b72e606.js' importance='high' as='script'></link>    <link rel='preload' href='https://musescore.com/static/public/build/musescore_es6/202504/ms~runtime.99a3c2f9f99e46db085e8c943004d363.js' importance='high' as='script'></link>    <link rel='preload' href='https://musescore.com/static/public/build/musescore_es6/202504/ms.a5fe0973f0039d99c338090e0f458304.js' importance='high' as='script'></link>    <link rel='preload' href='https://musescore.com/static/public/build/musescore_es6/202504/2946.21152933b482b79a79d6cc7f65021267.js' importance='high' as='script'></link>                
+    
+        <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#F9F7FA">
+</head>
+
+<body class="js desktop js-cookie-compliance  theme-react">
+        <script>
+    var hasFirstTap = false;
+    (function () {
+        function onFirstTap () {
+            hasFirstTap = true
+            document.body.removeEventListener('touchstart', onFirstTap)
+        }
+
+        document.body.addEventListener('touchstart', onFirstTap)
+    })()
+</script>
+
+                    
+        <div class="js-page react-container" style="min-height: 100vh;"></div>
+        
+
+        
+                            
+    
+    
+    
+    
+        
+
+<div
+    class="js-9814fb9530635c75b1a05a83b0fe186f763cf177a6c65fe6f8f0136e2a717f46"
+    data-37131ad67578e8a403889fdacd51eefe00966d73e12757cc08314fcb01063c28="{&quot;config&quot;:{&quot;releaseVer&quot;:&quot;mu-web_app_0.49.79&quot;,&quot;serviceSettings&quot;:{&quot;externalServices&quot;:{&quot;web&quot;:{&quot;auth.apple&quot;:true,&quot;auth.google&quot;:true,&quot;auth.facebook&quot;:true,&quot;billing.stripe&quot;:true,&quot;billing.paypal&quot;:true,&quot;billing.apple&quot;:true,&quot;billing.google&quot;:true,&quot;billing.facebook&quot;:true},&quot;mobile&quot;:{&quot;auth.apple&quot;:true,&quot;auth.google&quot;:true,&quot;auth.facebook&quot;:true,&quot;auth.consent&quot;:true,&quot;billing.apple&quot;:true,&quot;billing.google&quot;:true,&quot;billing.facebook&quot;:true,&quot;test.analytics&quot;:false}}},&quot;backendReleaseVer&quot;:&quot;4.28.27&quot;,&quot;renderType&quot;:&quot;react&quot;,&quot;staticPrefix&quot;:&quot;/static&quot;,&quot;urlFacebook&quot;:&quot;&quot;,&quot;urlGoogle&quot;:&quot;&quot;,&quot;main_server&quot;:&quot;musescore.com&quot;,&quot;ug_server_name&quot;:&quot;ultimate-guitar.com&quot;,&quot;static_server&quot;:&quot;https://musescore.com/static&quot;,&quot;statik_cache&quot;:&quot;_ver1743610069&quot;,&quot;upload_server&quot;:&quot;https://upload.musescore.com&quot;,&quot;country&quot;:&quot;CA&quot;,&quot;cf_turnstile_site_key&quot;:&quot;0x4AAAAAAAGYK1RXEWXX02Fv&quot;,&quot;upolloApiKey&quot;:&quot;q8or3DQantsU6Jq9hbbbhTq5LV4jaCjbBa2pKupaworF4dd92b45e5522ceb3e5b0a1b6457b5429b93d0d3826ac8a8eb098d27f2bdaa10&quot;,&quot;is_mobile&quot;:false,&quot;is_bot&quot;:false,&quot;captcha_id&quot;:&quot;&quot;,&quot;is_tablet&quot;:false,&quot;is_android&quot;:false,&quot;is_ios&quot;:false,&quot;is_es&quot;:false,&quot;isGDPRAvailable&quot;:false,&quot;isCcpaAvailable&quot;:false,&quot;hasStaticCache&quot;:true,&quot;app_url&quot;:&quot;&quot;,&quot;app_url_template&quot;:&quot;&quot;,&quot;isWebp&quot;:true,&quot;googleOneTap&quot;:{&quot;client_id&quot;:&quot;129899489146-28hqj8qdpippf2vama0sm48qqiduiovg.apps.googleusercontent.com&quot;,&quot;login_uri&quot;:&quot;https://musescore.com/user/auth/oauth/auth?service=google&amp;onetap=1&quot;},&quot;rtAnalytics&quot;:{&quot;trackUrl&quot;:&quot;/components/data&quot;,&quot;trackingEnabled&quot;:true},&quot;countryCode&quot;:&quot;CA&quot;,&quot;os&quot;:&quot;Windows&quot;,&quot;platform&quot;:1,&quot;browser&quot;:&quot;{\&quot;browser\&quot;:{\&quot;name\&quot;:\&quot;Firefox\&quot;,\&quot;version\&quot;:\&quot;136.0\&quot;,\&quot;type\&quot;:\&quot;browser\&quot;},\&quot;engine\&quot;:{\&quot;name\&quot;:\&quot;Gecko\&quot;,\&quot;version\&quot;:\&quot;136.0\&quot;},\&quot;os\&quot;:{\&quot;name\&quot;:\&quot;Windows\&quot;,\&quot;version\&quot;:{\&quot;value\&quot;:\&quot;10.0\&quot;,\&quot;alias\&quot;:\&quot;10\&quot;}},\&quot;device\&quot;:{\&quot;type\&quot;:\&quot;desktop\&quot;}}&quot;,&quot;browserName&quot;:&quot;Firefox&quot;,&quot;unified_id&quot;:&quot;1.1711098180.999319510&quot;,&quot;auth_type&quot;:&quot;none&quot;,&quot;statistic&quot;:{&quot;courses_all&quot;:419,&quot;lesson_all&quot;:13293,&quot;scores_all&quot;:3370968,&quot;scores_new&quot;:1435621,&quot;scores_official&quot;:1139934,&quot;scores_community&quot;:2231034,&quot;scores_listened_minutes&quot;:29771664,&quot;courses_viewed_minutes&quot;:2720106,&quot;ratings_all&quot;:11489969,&quot;pages_all&quot;:316041363,&quot;scores_transposed&quot;:45553,&quot;courses_instruments&quot;:17,&quot;scores_views&quot;:431292756,&quot;courses_views&quot;:623748,&quot;lessons_new&quot;:1600,&quot;followers_all&quot;:911064,&quot;ebook_all&quot;:2671},&quot;monetization&quot;:{&quot;marketingSpecials&quot;:[{&quot;id&quot;:22,&quot;name&quot;:&quot;spring&quot;,&quot;weight&quot;:29,&quot;platform&quot;:3,&quot;stockActionMetaName&quot;:&quot;spring&quot;,&quot;scoreStockActionMetaName&quot;:&quot;score-bottom-spring&quot;,&quot;settings&quot;:&quot;{}&quot;,&quot;saleOfferId&quot;:34}]},&quot;turn_iframe_off&quot;:false,&quot;jinba&quot;:{&quot;appLabel&quot;:&quot;ms_score&quot;,&quot;appLabelExp&quot;:&quot;null&quot;}},&quot;store&quot;:{&quot;score&quot;:{&quot;id&quot;:8050230,&quot;fileVersion&quot;:302,&quot;title&quot;:&quot;Bygone Days &ndash; Joe Hisaishi&quot;,&quot;url&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;isAddedToFavorite&quot;:0,&quot;partNames&quot;:[&quot;Alto Saxophone solo&quot;,&quot;Baritone Saxophone&quot;,&quot;Trombone solo&quot;,&quot;Trombone 1&quot;,&quot;Trombone 2&quot;,&quot;Trombone 3&quot;,&quot;Tuba&quot;,&quot;Piano&quot;],&quot;share&quot;:{&quot;publicUrl&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;embedUrl&quot;:&quot;https://musescore.com/user/31691575/scores/8050230/embed&quot;,&quot;url&quot;:&quot;https%3A%2F%2Fmusescore.com%2Fuser%2F31691575%2Fscores%2F8050230&quot;,&quot;title&quot;:&quot;Bygone+Days+%E2%80%93+Joe+Hisaishi&quot;,&quot;isShowSecretUrl&quot;:false},&quot;user&quot;:{&quot;id&quot;:31691575,&quot;name&quot;:&quot;LeekBleakFleec&quot;,&quot;url&quot;:&quot;https://musescore.com/user/31691575&quot;,&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;https://musescore.com/user/31691575&quot;}}},&quot;hasAccess&quot;:false,&quot;isBlocked&quot;:false,&quot;isPublic&quot;:true,&quot;isDownloadable&quot;:false,&quot;statUrl&quot;:&quot;https://musescore.com/score/stats/view?score_id=8050230&quot;,&quot;statDelayedUrl&quot;:&quot;https://musescore.com/score/stats/delayed-view?score_id=8050230&quot;,&quot;pagination&quot;:[],&quot;scoreOfTheDay&quot;:[],&quot;score_bpm&quot;:null,&quot;isPdfScore&quot;:false,&quot;hasCustomAudio&quot;:false},&quot;user&quot;:{&quot;hasPrintAccess&quot;:0,&quot;hasProAccess&quot;:0,&quot;id&quot;:0,&quot;avatarUrl&quot;:&quot;&quot;,&quot;profileUrl&quot;:&quot;&quot;,&quot;username&quot;:&quot;&quot;,&quot;email&quot;:&quot;&quot;,&quot;usergroupid&quot;:&quot;&quot;,&quot;iq&quot;:&quot;&quot;,&quot;user_status&quot;:&quot;&quot;,&quot;status&quot;:0,&quot;isDebounced&quot;:false,&quot;isPro&quot;:false,&quot;isAbonement&quot;:false,&quot;isProPlus&quot;:false,&quot;isNewUser&quot;:true,&quot;isStaff&quot;:false,&quot;isModerator&quot;:false,&quot;isObserver&quot;:false,&quot;isCopyrightManager&quot;:false,&quot;userDateCreated&quot;:0,&quot;emailFlags&quot;:[],&quot;daily_user_counter&quot;:51,&quot;isRatingDisabled&quot;:0,&quot;isBanned&quot;:0,&quot;totalScoresCount&quot;:0,&quot;firstScoreUploadTimestamp&quot;:0,&quot;accesses&quot;:[],&quot;outdated_accesses&quot;:[],&quot;session&quot;:{&quot;id&quot;:&quot;1.1743636190.1743636395&quot;,&quot;is_renew_session&quot;:false,&quot;expire_duration&quot;:300,&quot;expire_duration_dispersion&quot;:[5000,10000],&quot;enable_refresh&quot;:true,&quot;screen&quot;:&quot;ScoreMain&quot;},&quot;search_session_id&quot;:&quot;&quot;,&quot;grace_period_product_type_name&quot;:&quot;&quot;,&quot;can_upgrade&quot;:[],&quot;payment_account_id&quot;:0,&quot;edu_tracking_data&quot;:{&quot;subscription_tariff&quot;:&quot;&quot;,&quot;trial_end_date&quot;:0,&quot;tariff_start_date&quot;:0,&quot;tariff_end_date&quot;:0,&quot;payment_account_id&quot;:0},&quot;paid_content_consent_value&quot;:0,&quot;paid_content_consent_pro&quot;:0,&quot;paid_content_consent_edu&quot;:0,&quot;paid_content_consent_ebooks&quot;:0,&quot;segment_info&quot;:{&quot;segment&quot;:&quot;learn_few_scores_actively_without_active_print_and_load&quot;,&quot;pred&quot;:0,&quot;group&quot;:&quot;random_conversion_after_high_activity&quot;,&quot;events&quot;:6,&quot;loads&quot;:0,&quot;rec&quot;:376,&quot;freq&quot;:1}},&quot;jmuse_settings&quot;:{&quot;score_player&quot;:{&quot;isHasSVG&quot;:true,&quot;isHasBranded&quot;:false,&quot;embed&quot;:false,&quot;hideControls&quot;:false,&quot;sources&quot;:[{&quot;type&quot;:&quot;audio&quot;,&quot;title&quot;:&quot;Musescore audio&quot;,&quot;nid&quot;:8050230}],&quot;default_source&quot;:&quot;&quot;,&quot;media_user_is_pro&quot;:false,&quot;mixer&quot;:&quot;The Instruments is PRO-only feature. &lt;a href=\&quot;/upgrade?feature=mixer\&quot;&gt;Upgrade to Musescore PRO&lt;/a&gt;.&quot;,&quot;secondaryMixer&quot;:&quot;&lt;a href=\&quot;/upgrade?feature=parts3\&quot; rel=\&quot;nofollow\&quot; target=\&quot;_blank\&quot; style=\&quot;color: #bdbdbd\&quot;&gt;Download PDF including parts&lt;/a&gt; &lt;span class=\&quot;ms-player\&quot;&gt;&lt;a href=\&quot;/upgrade?feature=parts4\&quot; target=\&quot;_blank\&quot; style=\&quot;font-size: 1em\&quot;&gt;Pro feature&lt;/a&gt;&lt;/span&gt;&quot;,&quot;bucket&quot;:&quot;https://musescore.com/static/musescore/scoredata&quot;,&quot;json&quot;:{&quot;id&quot;:8050230,&quot;vid&quot;:12815269,&quot;dates&quot;:{&quot;revised&quot;:1715702382},&quot;secret&quot;:&quot;798ff91aa4&quot;,&quot;permalink&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;custom_url&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;format&quot;:&quot;0&quot;,&quot;has_custom_audio&quot;:0,&quot;metadata&quot;:{&quot;title&quot;:&quot;Bygone Days - Porco Rosso&quot;,&quot;subtitle&quot;:&quot;&quot;,&quot;composer&quot;:&quot;Joe Hisaishi&quot;,&quot;measures&quot;:87,&quot;poet&quot;:&quot;&quot;,&quot;lyrics&quot;:0,&quot;chordnames&quot;:0,&quot;keysig&quot;:-2,&quot;duration&quot;:267,&quot;dimensions&quot;:&quot;216x279&quot;,&quot;parts&quot;:[{&quot;part&quot;:{&quot;name&quot;:&quot;Alto Saxophone solo&quot;,&quot;program&quot;:&quot;65&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Baritone Saxophone&quot;,&quot;program&quot;:&quot;67&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Trombone solo&quot;,&quot;program&quot;:&quot;57&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Trombone 1&quot;,&quot;program&quot;:&quot;57&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Trombone 2&quot;,&quot;program&quot;:&quot;57&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Trombone 3&quot;,&quot;program&quot;:&quot;57&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Tuba&quot;,&quot;program&quot;:&quot;58&quot;}},{&quot;part&quot;:{&quot;name&quot;:&quot;Piano&quot;,&quot;program&quot;:&quot;0&quot;}}],&quot;pages&quot;:34}},&quot;render_vector&quot;:true,&quot;comments&quot;:[],&quot;score_id&quot;:8050230,&quot;urls&quot;:{&quot;space&quot;:&quot;https://musescore.com/static/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/space.jsonp?revision=1652486368&amp;no-cache=1743636395&quot;,&quot;image_path&quot;:&quot;https://musescore.com/static/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/&quot;,&quot;media&quot;:[]},&quot;sendEvents&quot;:true,&quot;pianoKeyboard&quot;:{&quot;enabled&quot;:true,&quot;hasAccess&quot;:false},&quot;pianoRoll&quot;:{&quot;enabled&quot;:true,&quot;hasAccess&quot;:true,&quot;resourcesUrl&quot;:&quot;https://musescore.com/static/public/img/musescore/piano_roll&quot;,&quot;feedbackUrl&quot;:&quot;https://musescore.com/groups/improving-musescore-com/discuss/5029644&quot;,&quot;forceShow&quot;:false}}},&quot;billing&quot;:{&quot;subscriptions&quot;:[],&quot;pastSubscriptions&quot;:[],&quot;credits&quot;:{&quot;amount&quot;:0},&quot;abonement&quot;:{&quot;amount&quot;:0},&quot;course_credits&quot;:{&quot;amount&quot;:0},&quot;lite_abonement&quot;:{&quot;amount&quot;:0},&quot;ebook_credits&quot;:{&quot;amount&quot;:0},&quot;ebook_abonement&quot;:{&quot;amount&quot;:0},&quot;has_ebooks&quot;:false,&quot;bonus_points&quot;:{&quot;amount&quot;:0},&quot;currency&quot;:&quot;CAD&quot;,&quot;currency_paypal&quot;:&quot;CAD&quot;,&quot;country_currency&quot;:&quot;CAD&quot;,&quot;country_code&quot;:&quot;CA&quot;,&quot;country_currency_fallback&quot;:false},&quot;level_instrument_title&quot;:&quot;&quot;,&quot;i18n&quot;:{&quot;locale&quot;:&quot;en-US&quot;,&quot;language&quot;:&quot;en&quot;,&quot;links&quot;:{&quot;default&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;pt&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;es&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;}},&quot;search&quot;:{&quot;value&quot;:&quot;&quot;},&quot;notifications&quot;:{&quot;countNew&quot;:0,&quot;data&quot;:[]},&quot;flashMessage&quot;:null,&quot;telemetry&quot;:{&quot;trackingId&quot;:0},&quot;set_order_options&quot;:[{&quot;name&quot;:&quot;Custom&quot;,&quot;value&quot;:0},{&quot;name&quot;:&quot;Title&quot;,&quot;value&quot;:1},{&quot;name&quot;:&quot;Date uploaded (newest first)&quot;,&quot;value&quot;:2},{&quot;name&quot;:&quot;Date uploaded (oldest first)&quot;,&quot;value&quot;:3},{&quot;name&quot;:&quot;View count&quot;,&quot;value&quot;:4},{&quot;name&quot;:&quot;Rating&quot;,&quot;value&quot;:5}],&quot;page&quot;:{&quot;template&quot;:{&quot;module&quot;:&quot;score&quot;,&quot;controller&quot;:&quot;view&quot;,&quot;action&quot;:&quot;index&quot;,&quot;isUgOffice&quot;:0,&quot;isOuterMarkupDisabled&quot;:false,&quot;reactAction&quot;:&quot;common&quot;},&quot;experiments&quot;:{&quot;variations&quot;:{&quot;5365&quot;:1,&quot;5803&quot;:1,&quot;5845&quot;:2,&quot;5851&quot;:1,&quot;5911&quot;:2,&quot;5950&quot;:2,&quot;6022&quot;:2,&quot;6055&quot;:3,&quot;6103&quot;:1,&quot;6109&quot;:2,&quot;6112&quot;:1,&quot;6127&quot;:1,&quot;4402&quot;:2,&quot;4801&quot;:2,&quot;5020&quot;:2,&quot;5068&quot;:2,&quot;5080&quot;:3,&quot;5140&quot;:2,&quot;5224&quot;:3,&quot;5233&quot;:2,&quot;5284&quot;:2,&quot;5299&quot;:2,&quot;5425&quot;:2,&quot;5443&quot;:2,&quot;5479&quot;:2,&quot;5524&quot;:2,&quot;5527&quot;:2,&quot;5539&quot;:3,&quot;5548&quot;:2,&quot;5569&quot;:2,&quot;5578&quot;:2,&quot;5614&quot;:2,&quot;5689&quot;:2,&quot;5698&quot;:3,&quot;5755&quot;:2,&quot;5776&quot;:2,&quot;5785&quot;:2,&quot;5815&quot;:2,&quot;5902&quot;:2,&quot;5944&quot;:2,&quot;5953&quot;:2,&quot;6052&quot;:3},&quot;closed_experiments&quot;:{&quot;4402&quot;:2,&quot;4801&quot;:2,&quot;5020&quot;:2,&quot;5068&quot;:2,&quot;5080&quot;:3,&quot;5140&quot;:2,&quot;5224&quot;:3,&quot;5233&quot;:2,&quot;5284&quot;:2,&quot;5299&quot;:2,&quot;5425&quot;:2,&quot;5443&quot;:2,&quot;5479&quot;:2,&quot;5524&quot;:2,&quot;5527&quot;:2,&quot;5539&quot;:3,&quot;5548&quot;:2,&quot;5569&quot;:2,&quot;5578&quot;:2,&quot;5614&quot;:2,&quot;5689&quot;:2,&quot;5698&quot;:3,&quot;5755&quot;:2,&quot;5776&quot;:2,&quot;5785&quot;:2,&quot;5815&quot;:2,&quot;5902&quot;:2,&quot;5944&quot;:2,&quot;5953&quot;:2,&quot;6052&quot;:3}},&quot;data&quot;:{&quot;score&quot;:{&quot;id&quot;:8050230,&quot;title&quot;:&quot;Bygone Days &ndash; Joe Hisaishi&quot;,&quot;file_score_title&quot;:&quot;Bygone Days - Porco Rosso&quot;,&quot;subtitle&quot;:&quot;&quot;,&quot;description&quot;:&quot;Jazz Band&quot;,&quot;can_manage_score&quot;:false,&quot;parts&quot;:8,&quot;parts_names&quot;:[&quot;Alto Saxophone solo&quot;,&quot;Baritone Saxophone&quot;,&quot;Trombone solo&quot;,&quot;Trombone 1&quot;,&quot;Trombone 2&quot;,&quot;Trombone 3&quot;,&quot;Tuba&quot;,&quot;Piano&quot;],&quot;thumbnails&quot;:{&quot;small&quot;:&quot;https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png@180x252?no-cache=1715702382&amp;bgclr=ffffff&quot;,&quot;medium&quot;:&quot;https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png@300x420?no-cache=1715702382&amp;bgclr=ffffff&quot;,&quot;large&quot;:&quot;https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png@500x660?no-cache=1715702382&amp;bgclr=ffffff&quot;,&quot;original&quot;:&quot;https://cdn.ustatik.com/musescore/scoredata/g/33c07d0cb25c9fbf0163ff418f15088d7efd4455/score_0.png?no-cache=1715702382&quot;},&quot;share&quot;:{&quot;publicUrl&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;embedUrl&quot;:&quot;https://musescore.com/user/31691575/scores/8050230/embed&quot;,&quot;url&quot;:&quot;https%3A%2F%2Fmusescore.com%2Fuser%2F31691575%2Fscores%2F8050230&quot;,&quot;title&quot;:&quot;Bygone+Days+%E2%80%93+Joe+Hisaishi&quot;,&quot;isShowSecretUrl&quot;:false},&quot;user&quot;:{&quot;id&quot;:31691575,&quot;name&quot;:&quot;LeekBleakFleec&quot;,&quot;url&quot;:&quot;https://musescore.com/user/31691575&quot;,&quot;image&quot;:&quot;https://musescore.com/static/musescore/userdata/avatar/profile_15.png@150x150&quot;,&quot;is_pro&quot;:false,&quot;is_staff&quot;:false,&quot;is_moderator&quot;:false,&quot;cover_url&quot;:&quot;https://musescore.com/static/musescore/userdata/cover/9/9/5/31691575.jpg?cache=0&quot;,&quot;has_cover&quot;:false,&quot;date_created&quot;:1553908850,&quot;is_publisher&quot;:false,&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;https://musescore.com/user/31691575&quot;}}},&quot;url&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;,&quot;duration&quot;:&quot;04:27&quot;,&quot;composer_name&quot;:&quot;Joe Hisaishi&quot;,&quot;pages_count&quot;:34,&quot;date_created&quot;:1652486368,&quot;date_updated&quot;:1715702382,&quot;favorite_count&quot;:16,&quot;comments_count&quot;:1,&quot;instruments&quot;:[{&quot;name&quot;:&quot;Saxophone alto&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/saxophone-alto&quot;,&quot;count&quot;:1},{&quot;name&quot;:&quot;Saxophone baritone&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/saxophone-baritone&quot;,&quot;count&quot;:1},{&quot;name&quot;:&quot;Trombone (4)&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/trombone&quot;,&quot;count&quot;:4},{&quot;name&quot;:&quot;Tuba&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/tuba&quot;,&quot;count&quot;:1},{&quot;name&quot;:&quot;Piano&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/piano&quot;,&quot;count&quot;:1}],&quot;hits&quot;:1017,&quot;is_draft&quot;:false,&quot;processing&quot;:&quot;ready&quot;,&quot;revisions_count&quot;:1,&quot;revision_id&quot;:12815269,&quot;has_custom_video&quot;:false,&quot;has_custom_audio&quot;:false,&quot;is_private&quot;:0,&quot;is_blocked&quot;:false,&quot;score_part_available&quot;:0,&quot;score_part_is_on&quot;:0,&quot;is_copyright_protected&quot;:0,&quot;is_origin&quot;:false,&quot;is_free&quot;:true,&quot;is_public_domain&quot;:false,&quot;truncated_description&quot;:&quot;&quot;,&quot;instrumentations&quot;:[{&quot;name&quot;:&quot;Jazz Band&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/jazz-band&quot;}],&quot;rating&quot;:{&quot;rating&quot;:4.63,&quot;count&quot;:8,&quot;count_to_visible&quot;:0,&quot;stats&quot;:[],&quot;user_rating&quot;:null,&quot;abusive_ban_time&quot;:null,&quot;abusive_ban_time_remain&quot;:null},&quot;publisher&quot;:null,&quot;is_official&quot;:false,&quot;is_purchased&quot;:false,&quot;body&quot;:&quot;&quot;,&quot;tags&quot;:[],&quot;is_downloadable&quot;:1,&quot;license&quot;:&quot;all-rights-reserved&quot;,&quot;instrumentation_id&quot;:14,&quot;is_original&quot;:false,&quot;measures&quot;:87,&quot;keysig&quot;:&quot;B♭ major, G minor&quot;,&quot;license_id&quot;:9,&quot;license_version&quot;:&quot;4.0&quot;,&quot;song_name&quot;:&quot;Bygone Days&quot;,&quot;artist_name&quot;:&quot;Joe Hisaishi&quot;,&quot;complexity&quot;:0,&quot;category_pages&quot;:[{&quot;url_to_search&quot;:&quot;https://musescore.com/sheetmusic/piano/soundtrack&quot;,&quot;name&quot;:&quot;Soundtrack for Piano&quot;}],&quot;is_pdf&quot;:false,&quot;is_arrange_me&quot;:false,&quot;billing_min_qty&quot;:1,&quot;billing_can_buy&quot;:true,&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;}}},&quot;sets&quot;:[{&quot;url&quot;:&quot;/user/37114557/sets/5614932&quot;,&quot;title&quot;:&quot;Bygone Days (7)&quot;,&quot;count&quot;:7}],&quot;groups&quot;:[],&quot;comments&quot;:{&quot;comments&quot;:[{&quot;id&quot;:7886863,&quot;score_id&quot;:8050230,&quot;user_id&quot;:34312578,&quot;date_created&quot;:1698179785,&quot;date_updated&quot;:1721940609,&quot;body&quot;:&quot;I don&#039;t understand why this transcription is not better rated and does not have more views, it is the only accurate one that I could find!! Thank you&quot;,&quot;parent_id&quot;:0,&quot;thread&quot;:&quot;00000/&quot;,&quot;annotation_page&quot;:-1,&quot;annotation_axis_x&quot;:&quot;&quot;,&quot;annotation_axis_y&quot;:&quot;&quot;,&quot;annotation_width&quot;:&quot;&quot;,&quot;annotation_height&quot;:&quot;&quot;,&quot;source_id&quot;:3,&quot;likes_count&quot;:1,&quot;is_deleted&quot;:false,&quot;user_name&quot;:&quot;Pijako&quot;,&quot;user_uri&quot;:&quot;&quot;,&quot;date_avatar_updated&quot;:1639786247,&quot;status&quot;:1,&quot;is_liked&quot;:false,&quot;is_pro&quot;:null,&quot;date&quot;:&quot;Oct 24, 2023&quot;,&quot;html&quot;:&quot;I don&amp;#039;t understand why this transcription is not better rated and does not have more views, it is the only accurate one that I could find!! Thank you&quot;,&quot;raw&quot;:&quot;I don&#039;t understand why this transcription is not better rated and does not have more views, it is the only accurate one that I could find!! Thank you&quot;,&quot;access&quot;:{&quot;can_delete&quot;:false,&quot;can_edit&quot;:false,&quot;can_reply&quot;:false},&quot;url&quot;:&quot;https://musescore.com/user/34312578/scores/8050230#comment-7886863&quot;,&quot;user_url&quot;:&quot;https://musescore.com/user/34312578&quot;,&quot;user&quot;:{&quot;id&quot;:34312578,&quot;is_author&quot;:false,&quot;url&quot;:&quot;https://musescore.com/user/34312578&quot;,&quot;name&quot;:&quot;Pijako&quot;,&quot;avatar_url&quot;:&quot;https://musescore.com/static/musescore/userdata/avatar/e/5/b/34312578.jpg@100x100?cache=1639786247&quot;,&quot;is_pro&quot;:false,&quot;is_staff&quot;:false,&quot;is_moderator&quot;:false},&quot;annotation&quot;:null}],&quot;comments_total&quot;:1},&quot;composer&quot;:null,&quot;count_views&quot;:1017,&quot;count_favorites&quot;:16,&quot;count_comments&quot;:1,&quot;privacy_string&quot;:&quot;&lt;i class=\&quot;icon-public\&quot;&gt;&lt;/i&gt; Everyone can see this score&quot;,&quot;license_string&quot;:&quot;&lt;i class=\&quot;icon-copyright\&quot;&gt;&lt;/i&gt; None (All rights reserved)&quot;,&quot;license_url&quot;:&quot;&quot;,&quot;is_user_follow&quot;:false,&quot;as_pro&quot;:false,&quot;isAddedToFavorite&quot;:false,&quot;isAddedToSpotlight&quot;:false,&quot;is_banned_user&quot;:false,&quot;genres&quot;:[{&quot;name&quot;:&quot;soundtrack&quot;,&quot;url_to_search&quot;:&quot;/sheetmusic/soundtrack&quot;}],&quot;secret&quot;:null,&quot;blocker_info&quot;:null,&quot;opened_dispute&quot;:false,&quot;pr_show&quot;:false,&quot;score_of_the_day&quot;:{&quot;id&quot;:42055,&quot;user_id&quot;:21171171,&quot;score_id&quot;:5634470,&quot;type&quot;:2,&quot;date_created&quot;:1562581079,&quot;date_updated&quot;:1562581741,&quot;date_converted&quot;:1562581741,&quot;date_status_updated&quot;:1562581741,&quot;title&quot;:&quot;BTS - Heartbeat (WORLD OST ) | Piano Tutorial + Sheet music&quot;,&quot;subtitle&quot;:&quot;BTS - Heartbeat by arranged by min jiyoon [Piano Tutorial + Sheet music]&quot;,&quot;description&quot;:&quot;Piano tutorial for Heartbeat by BTS (World  OST)\r\nTry the interactive tutorial, or download the sheet music here: https://musescore.com/user/21585386/scores/5634470/piano-tutorial?from=youtube_share \r\nMore than 500 000 tutorials are available for free on https://musescore.com\r\nThe original sheet music made by min jiyoon: https://musescore.com/user/21585386\r\nSupport arranger on on YouTube https://www.youtube.com/watch?v=L-42iZef7y4&quot;,&quot;channel_id&quot;:&quot;UCfY410QyoHlC4jwUZZOjgOg&quot;,&quot;video_id&quot;:&quot;9NVnfFiOA_E&quot;,&quot;privacy&quot;:&quot;public&quot;,&quot;notify_subscribers&quot;:1,&quot;tags&quot;:&quot;BTS - Heartbeat,piano tutorial,BTS - Heartbeat piano tutorial,synthesia&quot;,&quot;as_media_source&quot;:0,&quot;processing_status&quot;:4},&quot;is_download_limited&quot;:false,&quot;error_description&quot;:null,&quot;copyright_details&quot;:[],&quot;private_link_secret&quot;:null,&quot;type_download_list&quot;:[{&quot;type&quot;:&quot;mscz&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=mscz&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=mscz&amp;h=978750375681360251&quot;},{&quot;type&quot;:&quot;pdf&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=pdf&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=pdf&amp;h=978750375681360251&quot;},{&quot;type&quot;:&quot;mp4-sheet&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=mp4-sheet&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=mp4-sheet&amp;h=978750375681360251&quot;},{&quot;type&quot;:&quot;mxl&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=mxl&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=mxl&amp;h=978750375681360251&quot;},{&quot;type&quot;:&quot;mid&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=mid&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=mid&amp;h=978750375681360251&quot;},{&quot;type&quot;:&quot;mp3&quot;,&quot;url&quot;:&quot;https://musescore.com/score/download/signin?score_id=8050230&amp;type=mp3&quot;,&quot;authorized_url&quot;:&quot;https://musescore.com/score/download/index?score_id=8050230&amp;type=mp3&amp;h=978750375681360251&quot;}],&quot;is_public_domain&quot;:false,&quot;is_waiting_for_moderate&quot;:false,&quot;score_user_count&quot;:0,&quot;limit_download_count&quot;:20,&quot;is_blocked&quot;:false,&quot;song&quot;:{&quot;id&quot;:2273163,&quot;name&quot;:&quot;Bygone Days&quot;,&quot;artist&quot;:{&quot;id&quot;:26605,&quot;name&quot;:&quot;Joe Hisaishi&quot;,&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;https://musescore.com/artist/joe_hisaishi-26605&quot;}}},&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;https://musescore.com/song/bygone_days-2273163&quot;}}},&quot;is_ogg_supported&quot;:false,&quot;is_can_rate_score&quot;:true,&quot;is_author_blocked_you&quot;:false,&quot;score_type&quot;:&quot;regular&quot;,&quot;is_bot&quot;:false,&quot;hidden&quot;:false,&quot;dispute_hidden&quot;:&quot;/contact?subject=An+appeal+against+the+hiding+of+my+score&amp;message=https%3A%2F%2Fmusescore.com%2Fuser%2F31691575%2Fscores%2F8050230&quot;,&quot;disable_hidden_url&quot;:&quot;/score/manage/hidden/admin/unhide?score_id=8050230&quot;,&quot;paywall&quot;:{&quot;has_instant_paywall&quot;:false,&quot;is_trial_user&quot;:false,&quot;provider_name&quot;:null,&quot;period&quot;:null},&quot;payment_account_id&quot;:null,&quot;complexity&quot;:0,&quot;is_xtz_supported&quot;:false,&quot;payment_type&quot;:0,&quot;has_bought_by_credit&quot;:false,&quot;has_bought_by_one_time_payment&quot;:false,&quot;staff_like&quot;:null,&quot;open_mu_desktop&quot;:null,&quot;official_score&quot;:null,&quot;score_blocked_by_country&quot;:false,&quot;active_nps_list&quot;:[],&quot;score_parts&quot;:null,&quot;active_score_part_id&quot;:null,&quot;score_part&quot;:null,&quot;billing&quot;:{&quot;price&quot;:299,&quot;oldPrice&quot;:499,&quot;currency&quot;:&quot;CAD&quot;,&quot;discount&quot;:{&quot;amount&quot;:200,&quot;percentage&quot;:40},&quot;localPrice&quot;:{&quot;price&quot;:299,&quot;oldPrice&quot;:499,&quot;currency&quot;:&quot;CAD&quot;,&quot;discount&quot;:{&quot;amount&quot;:200,&quot;percentage&quot;:40}},&quot;bonusPoints&quot;:{&quot;amount&quot;:15},&quot;paypal&quot;:1},&quot;recommended_ebooks&quot;:null,&quot;breadcrumbs&quot;:[{&quot;name&quot;:&quot;Home&quot;,&quot;url&quot;:&quot;https://musescore.com/&quot;},{&quot;name&quot;:&quot;Joe Hisaishi&quot;,&quot;url&quot;:&quot;https://musescore.com/artist/joe_hisaishi-26605&quot;},{&quot;name&quot;:&quot;Bygone Days&quot;,&quot;url&quot;:&quot;https://musescore.com/song/bygone_days-2273163&quot;},{&quot;name&quot;:&quot;Bygone Days &ndash; Joe Hisaishi&quot;,&quot;url&quot;:&quot;https://musescore.com/user/31691575/scores/8050230&quot;}]},&quot;header_bidding&quot;:[]}},&quot;globalHelpers&quot;:[],&quot;bidding&quot;:{&quot;analytics&quot;:{&quot;logUrl&quot;:&quot;//track.ultimate-guitar.com/ug/&quot;,&quot;pageType&quot;:&quot;score_desktop&quot;,&quot;region&quot;:&quot;ENSR&quot;,&quot;device&quot;:&quot;desktop&quot;,&quot;variation&quot;:null,&quot;hasHardRefresh&quot;:true},&quot;refresh&quot;:{&quot;limit&quot;:20,&quot;maxVisibleTime&quot;:1000,&quot;delay&quot;:30000,&quot;delayDeviation&quot;:0,&quot;enabled&quot;:true,&quot;hasHardRefresh&quot;:true,&quot;availableBidders&quot;:[&quot;appnexus&quot;,&quot;ix&quot;,&quot;pubmatic&quot;,&quot;rubicon&quot;,&quot;openx&quot;,&quot;adform&quot;,&quot;sharethrough&quot;]},&quot;minRefreshCpm&quot;:0.04,&quot;cpmFloor&quot;:0.15,&quot;timeout&quot;:1500,&quot;dfpId&quot;:74268401,&quot;units&quot;:[{&quot;code&quot;:&quot;ad_cs_12219747_300_250&quot;,&quot;dfpCode&quot;:&quot;MS_ATF_300&quot;,&quot;sizes&quot;:[[300,250],[400,250]],&quot;placementId&quot;:&quot;12206052&quot;,&quot;layoutPlacement&quot;:&quot;top&quot;,&quot;platform&quot;:[&quot;desktop&quot;,&quot;mobile&quot;],&quot;mediaTypes&quot;:{&quot;banner&quot;:{&quot;sizes&quot;:[[300,250],[400,250]]}},&quot;dynamic&quot;:true,&quot;withoutBids&quot;:true,&quot;appnexusPlacementId&quot;:12219747,&quot;mediaType&quot;:&quot;banner&quot;,&quot;bids&quot;:[{&quot;bidder&quot;:&quot;appnexus&quot;,&quot;params&quot;:{&quot;placementId&quot;:12206052,&quot;keywords&quot;:{&quot;is_refresh&quot;:&quot;false&quot;,&quot;instruments&quot;:&quot;Saxophone alto,Saxophone baritone,Trombone (4),Tuba,Piano&quot;}}},{&quot;bidder&quot;:&quot;adform&quot;,&quot;params&quot;:{&quot;mid&quot;:&quot;488860&quot;}},{&quot;bidder&quot;:&quot;openx&quot;,&quot;params&quot;:{&quot;delDomain&quot;:&quot;ultimate-guitar-d.openx.net&quot;,&quot;unit&quot;:&quot;539356631&quot;}},{&quot;bidder&quot;:&quot;pubmatic&quot;,&quot;params&quot;:{&quot;adSlot&quot;:&quot;1178752_Musescore_ATF_300x250@300x250&quot;,&quot;publisherId&quot;:&quot;72623&quot;}},{&quot;bidder&quot;:&quot;rubicon&quot;,&quot;params&quot;:{&quot;accountId&quot;:&quot;15178&quot;,&quot;siteId&quot;:&quot;157280&quot;,&quot;zoneId&quot;:&quot;749504&quot;}},{&quot;bidder&quot;:&quot;onemobile&quot;,&quot;params&quot;:{&quot;dcn&quot;:&quot;8a9694b8017070f8309df8c44ba10020&quot;,&quot;pos&quot;:&quot;musescore_atf_300x250&quot;}}],&quot;refresh&quot;:{&quot;enabled&quot;:false},&quot;customTargeting&quot;:{&quot;ab_var_web_MU_5851&quot;:1,&quot;ab_var_web_MU_6109&quot;:2}},{&quot;code&quot;:&quot;ad_cs_12219747_728_90&quot;,&quot;dfpCode&quot;:&quot;MS_ATF_728&quot;,&quot;sizes&quot;:[[728,90]],&quot;placementId&quot;:&quot;12206052&quot;,&quot;layoutPlacement&quot;:&quot;top&quot;,&quot;platform&quot;:[&quot;desktop&quot;],&quot;mediaTypes&quot;:{&quot;banner&quot;:{&quot;sizes&quot;:[[728,90]]}},&quot;appnexusPlacementId&quot;:12219747,&quot;mediaType&quot;:&quot;banner&quot;,&quot;bids&quot;:[{&quot;bidder&quot;:&quot;appnexus&quot;,&quot;params&quot;:{&quot;placementId&quot;:12206052,&quot;keywords&quot;:{&quot;is_refresh&quot;:&quot;false&quot;,&quot;instruments&quot;:&quot;Saxophone alto,Saxophone baritone,Trombone (4),Tuba,Piano&quot;}}},{&quot;bidder&quot;:&quot;adform&quot;,&quot;params&quot;:{&quot;pkey&quot;:&quot;FdixsW0PHG887JsiHgHXfxJ1&quot;}},{&quot;bidder&quot;:&quot;amazon&quot;,&quot;params&quot;:[]},{&quot;bidder&quot;:&quot;openx&quot;,&quot;params&quot;:{&quot;delDomain&quot;:&quot;ultimate-guitar-d.openx.net&quot;,&quot;unit&quot;:&quot;540214242&quot;}},{&quot;bidder&quot;:&quot;pubmatic&quot;,&quot;params&quot;:{&quot;adSlot&quot;:&quot;1521529&quot;,&quot;publisherId&quot;:&quot;72623&quot;}},{&quot;bidder&quot;:&quot;rubicon&quot;,&quot;params&quot;:{&quot;siteId&quot;:&quot;157280&quot;,&quot;accountId&quot;:&quot;15178&quot;,&quot;zoneId&quot;:&quot;749504&quot;}},{&quot;bidder&quot;:&quot;onemobile&quot;,&quot;params&quot;:{&quot;dcn&quot;:&quot;8a9694b8017070f8309df8c44ba10020&quot;,&quot;pos&quot;:&quot;musescore_atf_728x90&quot;}},{&quot;bidder&quot;:&quot;ix&quot;,&quot;params&quot;:{&quot;id&quot;:4,&quot;siteId&quot;:313492}},{&quot;bidder&quot;:&quot;ttd&quot;,&quot;params&quot;:{&quot;supplySourceId&quot;:&quot;muse&quot;,&quot;publisherId&quot;:1}},{&quot;bidder&quot;:&quot;shemedia&quot;,&quot;params&quot;:{&quot;accountId&quot;:10278,&quot;siteId&quot;:210096,&quot;zoneId&quot;:3510324}}],&quot;customTargeting&quot;:{&quot;ab_var_web_MU_5851&quot;:1,&quot;ab_var_web_MU_6109&quot;:2}}],&quot;priceGranularity&quot;:[{&quot;precision&quot;:2,&quot;min&quot;:0,&quot;max&quot;:1,&quot;increment&quot;:0.01},{&quot;precision&quot;:2,&quot;min&quot;:1,&quot;max&quot;:2,&quot;increment&quot;:0.02},{&quot;precision&quot;:2,&quot;min&quot;:2,&quot;max&quot;:5,&quot;increment&quot;:0.05},{&quot;precision&quot;:2,&quot;min&quot;:5,&quot;max&quot;:10,&quot;increment&quot;:0.1},{&quot;precision&quot;:2,&quot;min&quot;:10,&quot;max&quot;:20,&quot;increment&quot;:0.2},{&quot;precision&quot;:2,&quot;min&quot;:20,&quot;max&quot;:50,&quot;increment&quot;:0.5}],&quot;isGDPRAvailable&quot;:false,&quot;dynamicLoad&quot;:true,&quot;isShowOnTap&quot;:false}}"
+></div>
+
+                    <script defer  src='https://musescore.com/static/public/build/musescore_es6/202504/vendor.20e693d3b8a020a6515d962c7b72e606.js'></script>                    <script defer  src='https://musescore.com/static/public/build/musescore_es6/202504/ms~runtime.99a3c2f9f99e46db085e8c943004d363.js'></script>            <script defer  src='https://musescore.com/static/public/build/musescore_es6/202504/ms.a5fe0973f0039d99c338090e0f458304.js'></script>                                            <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                window.navigator.serviceWorker.register('/sw_mu.js').catch(function(error) {
+                    if (window.UGERROR && window.UGERROR.errors) {
+                        window.UGERROR.errors.push(error)
+                    }
+                })
+            })
+        }
+    </script>
+            <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({"login":0,"hasPro":0,"rights":0,"auth":"None","staticUrl":"\/watch_ver1743610069.js"});
+        </script>
+
+<!-- Google Tag Manager -->
+<script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P46R4ZF');</script>
+<!-- End Google Tag Manager -->
+        
+
+<script type="application/ld+json">{
+    "@context": "https:\/\/schema.org",
+    "@type": "MusicComposition",
+    "url": "https:\/\/musescore.com\/user\/31691575\/scores\/8050230",
+    "name": "Bygone Days - Porco Rosso",
+    "thumbnailUrl": "https:\/\/musescore.com\/static\/musescore\/scoredata\/g\/33c07d0cb25c9fbf0163ff418f15088d7efd4455\/score_0.svg?no-cache=1715702382",
+    "composer": {
+        "@type": "Person",
+        "name": "Joe Hisaishi"
+    },
+    "musicalKey": "B♭ major, G minor",
+    "datePublished": "2022-05-13T23:59:28+00:00",
+    "dateModified": "2024-05-14T15:59:42+00:00",
+    "commentCount": 1,
+    "discussionUrl": "https:\/\/musescore.com\/user\/31691575\/scores\/8050230#comments"
+}</script>
+<script type="application/ld+json">{
+    "@context": "https:\/\/schema.org",
+    "@type": "CreativeWork",
+    "name": "Bygone Days - Porco Rosso",
+    "comment": [
+        {
+            "@type": "Comment",
+            "url": "https:\/\/musescore.com\/user\/31691575\/scores\/8050230#comment-7886863",
+            "text": "I don&#039;t understand why this transcription is not better rated and does not have more views, it is the only accurate one that I could find!! Thank you",
+            "datePublished": "2023-10-24T16:36:25-04:00",
+            "author": {
+                "@type": "Person",
+                "image": "https:\/\/musescore.com\/static\/musescore\/userdata\/avatar\/e\/5\/b\/34312578.jpg@100x100?cache=1639786247",
+                "name": "Pijako",
+                "url": "https:\/\/musescore.com\/user\/34312578"
+            }
+        }
+    ]
+}</script>
+<script type="application/ld+json">{
+    "@context": "https:\/\/schema.org",
+    "@type": "MusicRecording",
+    "name": "Bygone Days",
+    "datePublished": "2022-05-13T23:59:28+00:00",
+    "dateModified": "2024-05-14T15:59:42+00:00",
+    "url": "https:\/\/musescore.com\/user\/31691575\/scores\/8050230",
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "bestRating": "5",
+        "worstRating": "1",
+        "reviewCount": "8",
+        "ratingValue": "4.63"
+    }
+}</script>
+<script type="application/ld+json">{
+    "@context": "https:\/\/schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+                "@id": "https:\/\/musescore.com\/",
+                "name": "Home"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+                "@id": "https:\/\/musescore.com\/artist\/joe_hisaishi-26605",
+                "name": "Joe Hisaishi"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+                "@id": "https:\/\/musescore.com\/song\/bygone_days-2273163",
+                "name": "Bygone Days"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+                "@id": "https:\/\/musescore.com\/user\/31691575\/scores\/8050230",
+                "name": "Bygone Days – Joe Hisaishi"
+            }
+        }
+    ]
+}</script>
+    </body>
+
+</html>
