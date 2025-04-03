@@ -13,9 +13,12 @@ from db.main import SessionLocal
 from db.connection import get_session
 from db.crud import get_score
 
+from ProxyTaskManager import ProxyTaskManager
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+proxy_taskmanager = ProxyTaskManager(True)
 
 websocket_connections: Set[WebSocket] = set()
 mitmproxy_status = {"is_active": False}
@@ -58,6 +61,9 @@ async def websocket_endpoint(ws: WebSocket):
             await ws.receive_text()
     except WebSocketDisconnect:
         websocket_connections.remove(ws)
+        if len(websocket_connections) == 0:
+            await proxy_taskmanager.stop_proxy()
+            mitmproxy_status["is_active"] = False
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -85,6 +91,20 @@ async def submit_score(request: Request):
         json_message = get_saved_scores_with_metadata(config["scores_directory"])
         await ws.send_json(json_message)
     return 200
+
+
+@app.get("/api/togglestatus")
+async def toggle_status():
+    if mitmproxy_status["is_active"]:
+        print("Proxy manager stops proxy")
+        await proxy_taskmanager.stop_proxy()
+        mitmproxy_status["is_active"] = False
+        for ws in websocket_connections:
+            json_message = get_message_status()
+            await ws.send_json(json_message)
+    else:
+        print("Proxy manager starts proxy")
+        await proxy_taskmanager.start_proxy()
 
 
 @app.post("/api/status")

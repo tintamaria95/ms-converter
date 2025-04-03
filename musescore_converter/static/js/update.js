@@ -10,6 +10,9 @@ function handleClickDownload(score_id){
     })
 }
 
+function handleToggleStatus(){
+    fetch("/api/togglestatus")
+}
 
 function create_score_div(score){
     div_score = document.createElement("div")
@@ -67,7 +70,8 @@ function updateStatus(status){
 }
 
 
-
+const statusButton = document.getElementById("status-button");
+statusButton.addEventListener('click', handleToggleStatus);
 const scoresMap = new Set();
 const socket = new WebSocket("ws://" + window.location.host + "/ws");
 socket.onmessage = function (event) {
@@ -79,30 +83,6 @@ socket.onmessage = function (event) {
         if(message.status){
             updateStatus(message.status)
         }
-        // if (!scoresMap.has(score_id)){
-        //     addScoreElement(score_id, data.pages)
-        //     scoresMap.add(score_id)
-        // } else {
-        //     updateScoreElement(score_id, data.pages)
-        // }
-        
-        
-        // const messagesList = document.getElementById("messages-list");
-        // const listItem = document.createElement("li");
-        // listItem.textContent = data.message;  // Display the message
-
-        // // Change color based on status
-        // if (data.status === "success") {
-        //     listItem.style.color = "green";
-        // } else if (data.status === "error") {
-        //     listItem.style.color = "red";
-        // } else if (data.status === "warning") {
-        //     listItem.style.color = "orange";
-        // } else {
-        //     listItem.style.color = "black";  // Default color
-        // }
-
-        // messagesList.prepend(listItem);  // Add the new message at the top
     } catch (error) {
         console.error("Error parsing WebSocket message:", error);
     }

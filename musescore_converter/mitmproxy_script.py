@@ -8,6 +8,7 @@ from config import config
 from bs4 import BeautifulSoup
 
 from Score import ScorePage
+from http_requests import post_request_score, post_request_status
 
 
 def is_content(flow: http.HTTPFlow, content_type: str):
@@ -98,44 +99,6 @@ def save_score_from_s3(flow: http.HTTPFlow, score_id: str, page_num: str, suffix
         f"{config['scores_directory']}/{score_id}/{page_num}_{score_id}.{suffix}", "wb"
     ) as f:
         f.write(flow.response.content)
-
-
-def post_request_score(score_page: ScorePage):
-    proxies = {
-        "http": None,
-        "https": None,
-    }
-    try:
-        response = requests.post(
-            f"http://{config['host']}:{config['port']}/api/score",
-            json=score_page.to_json(),
-            proxies=proxies,
-        )
-        print(response)
-    except Exception as e:
-        print(
-            f"ERROR while trying to post request on http://{config['host']}:{config['port']}/api/score"
-        )
-        print(e)
-
-
-def post_request_status(is_active: bool):
-    proxies = {
-        "http": None,
-        "https": None,
-    }
-    try:
-        response = requests.post(
-            f"http://{config['host']}:{config['port']}/api/status",
-            json={"is_active": is_active},
-            proxies=proxies,
-        )
-        print(response)
-    except Exception as e:
-        print(
-            f"ERROR while trying to post request on http://{config['host']}:{config['port']}/api/status"
-        )
-        print(e)
 
 
 def get_score_infos_from_html(response_text: str):
