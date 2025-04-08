@@ -1,5 +1,5 @@
 
-Write-Host "STEP 1.1/3: Download Python-3.11.6 installer..." -ForegroundColor Cyan
+Write-Host "STEP 1.1/4: Download Python-3.11.6 installer..." -ForegroundColor Cyan
 if (Test-Path $pythonInstaller) {
     Write-Host "-> python-installer.exe already downloaded."
 } else {
@@ -13,7 +13,7 @@ if (Test-Path $pythonInstaller) {
 }
 
 
-Write-Host "STEP 1.2/3:: Installing Python. Please wait and do not close this window..." -ForegroundColor Cyan
+Write-Host "STEP 1.2/4:: Installing Python. Please wait and do not close this window..." -ForegroundColor Cyan
 Start-Process -FilePath $pythonInstaller -ArgumentList "/quiet InstallAllUsers=0 TargetDir=`"$pythonDir`" PrependPath=0" -Wait
 
 if ( -Not(Get-Command $pythonExe -ErrorAction SilentlyContinue)){
